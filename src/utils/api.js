@@ -56,3 +56,11 @@ export const delTodos = async(id, token)=>{
     }
   })
 }
+
+export const checkout = async(token)=>{
+  return api.get('/users/checkout', {
+    headers:{
+      Authorization: token,
+    }
+  })
+}

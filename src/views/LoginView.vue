@@ -24,19 +24,24 @@
   </div>
 </div>
 </template>
+
 <script setup>
 import { login } from '@/utils/api';
-import { ref } from 'vue';
+import { provide, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 
 const email = ref('asd@asd.com')
 const password = ref('asdasd')
 const router = useRouter()
+
+
 const handleSignin = async() =>{
   try {
     const response = await login(email.value, password.value)
+    // console.log(response.data)
     const { token, exp } = response.data
+
     // 儲存 token
     document.cookie = `vue3-todolist-token=${token}; expires=${exp}`
     alert('登入成功')
@@ -45,4 +50,5 @@ const handleSignin = async() =>{
     alert(error.response.data.message)
   }
 }
+
 </script>

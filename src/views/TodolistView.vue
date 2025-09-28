@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import TodoForm from '@/components/TodoForm.vue';
 import TodoList from '@/components/TodoList.vue';
-import { getTodos, addTodos, delTodos, toggleTodos } from '@/utils/api';
+import { getTodos, addTodos, delTodos, toggleTodos, checkout, } from '@/utils/api';
 
-import {   onMounted,  ref } from 'vue';
+import { onMounted,  ref } from 'vue';
 
 const todos = ref([])
 // const todos = ref([
@@ -23,8 +23,17 @@ const handleGettodos = async() =>{
   }
 }
 
+const nickname = ref()
+const checkToken = async()=>{
+  const res = await checkout(token)
+  // console.log(res)
+  nickname.value = res.data.nickname
+}
+
 onMounted( ()=>{
   handleGettodos();
+  checkToken();
+
   }
 )
 
@@ -56,10 +65,15 @@ const changeTodo = async (id)=>{
 <template>
 <div id="todoListPage" class="bg-half" >
   <nav>
-    <h1><a href="#">ONLINE TODO LIST</a></h1>
+    <h1>
+      <a href="#">ONLINE TODO LIST</a>
+    </h1>
 
     <ul>
-      <li class="todo_sm"><a href="#"><span>王小明的代辦</span></a></li>
+      <li class="todo_sm">
+        <!-- <a href="#"><span>王小明的代辦</span></a> -->
+      <router-link to="/todolist"> {{ nickname }} 的代辦</router-link>
+      </li>
       <li>
         <router-link to="/login">登出</router-link>
         <!-- <a href="#/login"></a> -->
